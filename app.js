@@ -14,6 +14,8 @@ var app = express();
  */
 var mongoose_bcindex = require('./mongodb/bcindex.js');
 var bc_index = mongoose_bcindex();
+var mongoose_bcuser = require('./mongodb/user.js');
+var bc_user = mongoose_bcuser();
 
 
 // view engine setup
@@ -28,6 +30,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/register', routes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
