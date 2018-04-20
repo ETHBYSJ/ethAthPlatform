@@ -9,6 +9,13 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 
+/**
+ * mongoose
+ */
+var mongoose_bcindex = require('./mongodb/bcindex.js');
+var bc_index = mongoose_bcindex();
+
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
