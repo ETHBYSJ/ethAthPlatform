@@ -9,10 +9,10 @@ var app = express();
 /**
  * mongoose
  */
-var mongoose_bcindex = require('./mongodb/bcindex.js');
-var bc_index = mongoose_bcindex();
-var mongoose_bcuser = require('./mongodb/user.js');
-var bc_user = mongoose_bcuser();
+//var mongoose_bcindex = require('./mongodb/bcindex.js');
+//var bc_index = mongoose_bcindex();
+//var mongoose_bcuser = require('./mongodb/user.js');
+//var bc_user = mongoose_bcuser();
 
 
 // view engine setup
@@ -31,14 +31,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var registerRouter = require('./routes/register');
-//var loginRouter = require('./routes/login');
+var loginRouter = require('./routes/login');
 //var homeRouter = require('./routes/home');
 //var logoutRouter = require('./routes/logout');
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/register', registerRouter);
-//app.use('/login', loginRouter);
+app.use('/login', loginRouter);
 //app.use('/home', homeRouter);
 //app.use('/logout', logoutRouter);
 
