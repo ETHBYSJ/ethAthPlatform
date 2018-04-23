@@ -1,5 +1,5 @@
 /**
- * Collections: dbindex
+ * Collections: dbindexs
  */
 
 var mongoose = require('./db.js');
@@ -11,4 +11,4 @@ var bcindexSchema = new mongoose.Schema({
     extra: { type: String }   
 });
 
-module.exports = mongoose.model('bcindex', bcindexSchema)
+module.exports = mongoose.model('bcindex', bcindexSchema);
