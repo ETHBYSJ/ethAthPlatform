@@ -6,35 +6,44 @@ var model = require('../mongodb/model');
 /* GET register page. */
 router.get('/', function(req, res, next) {
     res.render('register', { message: 'User Register' });
-
+}).post('/',function(req, res) {
     var User = model.User;
 
-    var uname = req.body.uname;
-    var upwd = req.body.upwd;
-    
-    User.findOne({account: uname}, function(err, result) {
-        if(err) {
-            res.send(500);
-            req.session.error = '网络异常错误，请检查';
-            console.log(err);
-        } else if(result!=undefined) {
-            req.session.error = '用户名已存在!';
-            
-        } else {
-            User.create({
-                account: uname,
-                password: upwd
-            }, function(err, doc) {
-                if(err) {
-                    res.send(500);
-                    console.log(err);
-                } else {
-                    req.session.error = '用户创建成功！'
-                    res.send(200);
-                }
-            })
-        }
-    })
+    console.log(req.body.uname);
+    console.log(req.body.upwd);
+
+    if(req.body.uname!=undefined && req.body.upwd!=undefined) {
+        var uname = req.body.uname;
+        var upwd = req.body.upwd;
+        
+        User.findOne({account: uname}, function(err, result) {
+            if(err) {
+                res.sendStatus(500);
+                req.session.error = '网络异常错误，请检查';
+                console.log(err);
+            } else if(result) {
+                req.session.error = '用户名已存在!';
+                console.log('用户名已存在');
+                res.sendStatus(500);
+            } else {
+                User.create({
+                    account: uname,
+                    password: upwd,
+                    eth: 0,
+                    category: 1
+                }, function(err, doc) {
+                    if(err) {
+                        res.sendStatus(500);
+                        console.log(err);
+                    } else {
+                        req.session.error = '用户创建成功！'
+                        res.sendStatus(200);
+                        console.log('用户名创建成功');
+                    }
+                })
+            }
+        });
+    }
 });
 
 module.exports = router;

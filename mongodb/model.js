@@ -15,9 +15,10 @@ var Bcindex = mongoose.model('Bcindex', bcindexSchema);
 
 
 var userSchema = new mongoose.Schema({
-    id:         { type: Number },
     account:    { type: String },
-    password:   { type: String }   
+    password:   { type: String }, 
+    eth:        { type: String },
+    category:   { type: Number }
 });
 
 var User = mongoose.model('User', userSchema);

@@ -82,12 +82,12 @@
                 url: '/register',
                 type: 'post',
                 data: data,
-                success: function(data,status){ 
+                success: function(data, status){ 
                     if(status == 'success'){ 
                         location.href = 'login';
                     }
                 },
-                error: function(data,err){ 
+                error: function(data, err){ 
                         location.href = 'register';
                 }
             }); 
