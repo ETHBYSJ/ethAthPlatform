@@ -5,14 +5,14 @@ var model = require('../mongodb/model');
 
 /* GET register page. */
 router.get('/', function(req, res, next) {
-    res.render('register', { message: 'User Register' });
+    res.render('register', { title: 'User Register' });
 }).post('/',function(req, res) {
     var User = model.User;
 
     console.log(req.body.uname);
     console.log(req.body.upwd);
 
-    if(req.body.uname!=undefined && req.body.upwd!=undefined) {
+    if(req.body.uname!=undefined && req.body.upwd!=undefined && req.body.uname!='' && req.body.upwd!='') {
         var uname = req.body.uname;
         var upwd = req.body.upwd;
         
@@ -36,7 +36,7 @@ router.get('/', function(req, res, next) {
                         res.sendStatus(500);
                         console.log(err);
                     } else {
-                        req.session.error = '用户创建成功！'
+                        req.session.error = '用户创建成功,请登录'
                         res.sendStatus(200);
                         console.log('用户名创建成功');
                     }
