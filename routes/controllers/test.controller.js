@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-var web3 = require('../web3/server.js');
+var web3 = require('../../web3/server.js');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {

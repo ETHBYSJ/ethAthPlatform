@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-var model = require('../mongodb/model');
+var model = require('../../mongodb/model');
 
 /* GET register page. */
 router.get('/', function(req, res, next) {

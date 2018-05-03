@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-var model = require('../mongodb/model');
+var model = require('../../mongodb/model');
 
 /* GET login page. */
 router.route("/").get(function(req,res){    

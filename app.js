@@ -3,11 +3,21 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var session = require('express-session')
-
+var session = require('express-session');
+var cors = require('cors');
 var app = express();
 
-
+/**
+ * cors
+ */
+const corsOptions = {
+	origin: [
+		'http://localhost:8001'
+	],
+	methods:'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+	allowedHeaders:['Content-Type', 'Authorization']
+};
+app.use(cors(corsOptions));
 
 /**
  * express-session
@@ -46,20 +56,10 @@ app.use(express.static(path.join(__dirname, 'public')));
  * routers
  */
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var registerRouter = require('./routes/register');
-var loginRouter = require('./routes/login');
-var homeRouter = require('./routes/home');
-var logoutRouter = require('./routes/logout');
-var testRouter = require('./routes/test');
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/register', registerRouter);
-app.use('/login', loginRouter);
-app.use('/home', homeRouter);
-app.use('/logout', logoutRouter);
-app.use('/test', testRouter);
+
+var routes = require('./routes/index')(app);
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   	next(createError(404));
