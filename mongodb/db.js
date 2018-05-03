@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var config = require('./config.js');
 
 //连接mongodb
-//mongoose.connect(config.mongodb);
+mongoose.connect(config.mongodb);
 
 //检测连接情况
 /**
