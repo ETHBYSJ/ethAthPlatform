@@ -5,10 +5,10 @@
 var mongoose = require('./db.js');
 
 var bcindexSchema = new mongoose.Schema({
-    id:    { type: Number },
-    time:  { type: Date },
-    index: { type: Number },
-    extra: { type: String }   
+    id:         { type: Number },
+    time:       { type: Date },
+    transhash:  { type: String },
+    datahash:   { type: String } 
 });
 
 var Bcindex = mongoose.model('Bcindex', bcindexSchema);

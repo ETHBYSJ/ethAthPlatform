@@ -17,7 +17,7 @@ const corsOptions = {
 	methods:'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
 	allowedHeaders:['Content-Type', 'Authorization']
 };
-app.use(cors(corsOptions));
+app.use("/trans", cors(corsOptions));
 
 /**
  * express-session
@@ -55,8 +55,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 /**
  * routers
  */
-var indexRouter = require('./routes/index');
-
 
 var routes = require('./routes/index')(app);
 

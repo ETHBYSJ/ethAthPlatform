@@ -3,8 +3,8 @@ var router = express.Router();
 
 var web3 = require('../../web3/server.js');
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
+/* GET test page. */
+router.get('/', function(req, res) {
   res.render('test', { title: 'Express' });
 
   web3.eth.getAccounts().then(function(res, err) {

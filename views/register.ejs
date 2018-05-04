@@ -76,8 +76,8 @@
             if(password !== password1){ 
                 $("#password").css("border","1px solid red");
                 $("#password1").css("border","1px solid red");
-            }else if(password === password1){
-            var data = {"uname":username,"upwd":password};
+            } else if(password === password1){
+            var data = {"uname": username, "upwd": password};
             $.ajax({ 
                 url: '/register',
                 type: 'post',

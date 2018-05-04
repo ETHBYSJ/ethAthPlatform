@@ -8,10 +8,10 @@ router.get('/', function(req, res, next) {
     res.render('register', { title: 'User Register' });
 }).post('/',function(req, res) {
     var User = model.User;
-
+    /* //test log
     console.log(req.body.uname);
     console.log(req.body.upwd);
-
+    */
     if(req.body.uname!=undefined && req.body.upwd!=undefined && req.body.uname!='' && req.body.upwd!='') {
         var uname = req.body.uname;
         var upwd = req.body.upwd;
