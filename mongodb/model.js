@@ -18,7 +18,7 @@ var userSchema = new mongoose.Schema({
     account:    { type: String },
     password:   { type: String }, 
     eth:        { type: String },
-    category:   { type: Number }
+    balance:    { type: Number }
 });
 
 var User = mongoose.model('User', userSchema);

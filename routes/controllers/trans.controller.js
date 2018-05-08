@@ -1,5 +1,3 @@
-import { randomBytes } from 'crypto';
-
 var express = require('express');
 var router = express.Router();
 
@@ -7,7 +5,7 @@ var Async = require('async');
 var web3 = require('../../web3/server.js');
 var model = require('../../mongodb/model');
 
-app.post('/', function(res, req) {
+router.post('/', function(res, req) {
     var Bcindex = model.Bcindex;
 
     var intro = req.body.intro; //string
@@ -47,8 +45,8 @@ app.post('/', function(res, req) {
             var thash = hash;
             callback(null, thash, idnumber);
         },
-        function insert_db(thash, idnumberm, callback) {
-             /* 操作MONGODB Bcindex */
+        function insert_db(thash, idnumber, callback) {
+             //操作MONGODB Bcindex 
             Bcindex.findOne({transhash: thash}, function(err, result) {
                 if(err) {
                     res.sendStatus(500);
@@ -71,6 +69,7 @@ app.post('/', function(res, req) {
     ], function(err){
         if(err) 
             console.log(err);
-    });
-
+    });  
 })
+
+module.exports = router;
