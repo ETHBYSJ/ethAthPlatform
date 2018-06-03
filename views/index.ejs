@@ -1,77 +1,171 @@
+
 <!DOCTYPE html>
-<html>
-  <head>
+<html lang="en">
+<head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <title>EthAthPlatform</title>
 
-    <title><%= title %></title>
+    <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="/stylesheets/local.css" />
 
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="/bootstrap-3.3.7/css/bootstrap.min.css" media="screen">
-    
+    <script type="text/javascript" src="/javascripts/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
 
-    <!-- Css -->
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
+    <!-- you need to include the shieldui css and js assets in order for the charts to work -->
+    <link rel="stylesheet" type="text/css" href="http://www.shieldui.com/shared/components/latest/css/light-bootstrap/all.min.css" />
+    <script type="text/javascript" src="http://www.shieldui.com/shared/components/latest/js/shieldui-all.min.js"></script>
+    <script type="text/javascript" src="http://www.prepbootstrap.com/Content/js/gridData.js"></script>
+</head>
+<body>
+    <div id="wrapper">
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">EthAthPlatform
+                </a>
+            </div>
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav side-nav">
+                    <li class="active"><a href="/"><i class="fa fa-bullseye"></i> &nbsp;主页</a></li>
+                    <li class="divider"></li>
+                    <li><a href="/find"><i class="fa fa-tasks"></i> &nbsp;查询交易凭证</a></li>
+                    <li><a href="/update"><i class="fa fa-globe"></i> &nbsp;查询数据更新</a></li>
+                    <li><a href="signup.html"><i class="fa fa-list-ol"></i> &nbsp;个人资料</a></li>
+                    <li><a href="register.html"><i class="fa fa-font"></i> &nbsp;修改密码</a></li>
+           
+                    <li><a href="timeline.html"><i class="fa fa-font"></i> &nbsp;联系我们</a></li>
+                    
+                </ul>
+                <ul class="nav navbar-nav navbar-right navbar-user">
+                     <li class="dropdown user-dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Admin<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#"><i class="fa fa-user"></i> 个人资料</a></li>
+                            <li><a href="#"><i class="fa fa-gear"></i> 个人设置</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#"><i class="fa fa-power-off"></i> 登出</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
 
-  <body>
-    <!-- Fixed navbar -->
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-          </button>
-          <a class="navbar-brand" href="/">ETHATH</a>
-        </div>
-        <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="/test"> test </a></li>
-            <li><a>未登录</a></li>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </div>
-
-    <div id="header">
-        <div class="container">
+        <div id="page-wrapper">
             <div class="row">
-                <div class="col-lg-6">
-                    <h1>交易认证系统</h1>
-                    <font size=2 color='white'>基于以太坊开发的区块链交易平台，利用区块链的不可篡改性，
-                      <br/>提供更加安全可靠的服务。</h3>
-                      <br/>
-                      <br/>
-                      <button type="button" class="btn btn-info btn-lg" >
-                      <a href="/register" >
-                         没有账号？现在注册！</a></button>
-                      <br/>
-                      <br/>
-                      <button type="button" class="btn btn-info btn-lg" >
-                          <a href="/login">
-                         已有账号？现在登录！</a></button>
+                <div class="col-lg-12">
+                    <h1>数据交易凭证平台 <small>主页</small></h1>
+                    <div class="alert alert-success alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        欢迎使用数据交易凭证平台，在这里您可以查询数据交易凭证哦~还能看到数据是否更新哦~
+                        <br />
+                        数据交易凭证平台是基于区块链技术的，您可以大胆尝试哦~
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <div id="footer">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <p class="copyright"><a href="#">&copy; 联系我们</a></p>
-            </div>
-            <div class="col-md-6">
-                <div class="credits">
-                    <a href="#">SJTU</a> 
-                </div>
-            </div>
-        </div>      
-    </div>  
-    </div> 
-    <script type="text/javascript" src="javascripts/jquery-2.1.4.min.js"></script>
-    <script type="text/javascript" src="bootstrap-3.3.7/js/bootstrap.min.js"></script>
-  </body>
+
+           
+
+    <script type="text/javascript">
+        jQuery(function ($) {
+            var performance = [12, 43, 34, 22, 12, 33, 4, 17, 22, 34, 54, 67],
+                visits = [123, 323, 143, 132, 274, 223, 143, 156, 223, 223],
+                budget = [23, 19, 11, 34, 42, 52, 35, 22, 37, 45, 55, 57],
+                sales = [11, 9, 31, 34, 42, 52, 35, 22, 37, 45, 55, 57],
+                targets = [17, 19, 5, 4, 62, 62, 75, 12, 47, 55, 65, 67],
+                avrg = [117, 119, 95, 114, 162, 162, 175, 112, 147, 155, 265, 167];
+
+            $("#shieldui-chart1").shieldChart({
+                primaryHeader: {
+                    text: "Visitors"
+                },
+                exportOptions: {
+                    image: false,
+                    print: false
+                },
+                dataSeries: [{
+                    seriesType: "area",
+                    collectionAlias: "Q Data",
+                    data: performance
+                }]
+            });
+
+            $("#shieldui-chart2").shieldChart({
+                primaryHeader: {
+                    text: "Login Data"
+                },
+                exportOptions: {
+                    image: false,
+                    print: false
+                },
+                dataSeries: [
+                    {
+                        seriesType: "polarbar",
+                        collectionAlias: "Logins",
+                        data: visits
+                    },
+                    {
+                        seriesType: "polarbar",
+                        collectionAlias: "Avg Visit Duration",
+                        data: avrg
+                    }
+                ]
+            });
+
+            $("#shieldui-chart3").shieldChart({
+                primaryHeader: {
+                    text: "Sales Data"
+                },
+                dataSeries: [
+                    {
+                        seriesType: "bar",
+                        collectionAlias: "Budget",
+                        data: budget
+                    },
+                    {
+                        seriesType: "bar",
+                        collectionAlias: "Sales",
+                        data: sales
+                    },
+                    {
+                        seriesType: "spline",
+                        collectionAlias: "Targets",
+                        data: targets
+                    }
+                ]
+            });
+
+            $("#shieldui-grid1").shieldGrid({
+                dataSource: {
+                    data: gridData
+                },
+                sorting: {
+                    multiple: true
+                },
+                paging: {
+                    pageSize: 7,
+                    pageLinksCount: 4
+                },
+                selection: {
+                    type: "row",
+                    multiple: true,
+                    toggle: false
+                },
+                columns: [
+                    { field: "id", width: "70px", title: "ID" },
+                    { field: "name", title: "Person Name" },
+                    { field: "company", title: "Company Name" },
+                    { field: "email", title: "Email Address", width: "270px" }
+                ]
+            });
+        });
+    </script>
+</body>
 </html>

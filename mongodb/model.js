@@ -5,7 +5,7 @@
 var mongoose = require('./db.js');
 
 var bcindexSchema = new mongoose.Schema({
-    id:         { type: Number },
+    transcode:  { type: Number },
     time:       { type: Date },
     transhash:  { type: String },
     datahash:   { type: String } 

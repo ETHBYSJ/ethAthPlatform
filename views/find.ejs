@@ -1,0 +1,146 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Deep Blue Admin</title>
+
+    <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="/stylesheets/local.css" />
+
+    <script type="text/javascript" src="/javascripts/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- you need to include the shieldui css and js assets in order for the charts to work -->
+    <link rel="stylesheet" type="text/css" href="/stylesheets/all.min.css" />
+    <script type="text/javascript" src="/javascripts/shieldui-all.min.js"></script>
+    <script type="text/javascript" src="/javascripts/gridData.js"></script>
+</head>
+<body>
+    <div id="wrapper">
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">EthAthPlatform
+                </a>
+            </div>
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav side-nav">
+                    <li><a href="/"><i class="fa fa-bullseye"></i> &nbsp;主页</a></li>
+                    <li class="active"><a href="/find"><i class="fa fa-tasks"></i> &nbsp;查询交易凭证</a></li>
+                    <li><a href="/update"><i class="fa fa-globe"></i> &nbsp;查询数据更新</a></li>
+                    <li><a href="signup.html"><i class="fa fa-list-ol"></i> &nbsp;个人资料</a></li>
+                    <li><a href="register.html"><i class="fa fa-font"></i> &nbsp;修改密码</a></li>
+           
+                    <li><a href="timeline.html"><i class="fa fa-font"></i> &nbsp;联系我们</a></li>
+                    
+                </ul>
+                <ul class="nav navbar-nav navbar-right navbar-user">
+                     <li class="dropdown user-dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Steve Miller<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#"><i class="fa fa-user"></i> 个人资料</a></li>
+                            <li><a href="#"><i class="fa fa-gear"></i> 个人设置</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#"><i class="fa fa-power-off"></i> 登出</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1>查询 <small>交易凭证查询</small></h1>
+                    <div class="alert alert-success alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        欢迎来到交易凭证查询功能！您可以在此输入您购买数据时商家给予您的交易码和您收到的文件的MD5码来查询您的交易凭证哦。
+                        <br />
+                        MD5码可使用任意工具生成，请不必担心您的隐私会被泄露~ 
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>请输入您购买数据时的交易码</label>
+                <input class="form-control" style="width:50%" id="transcode" placeholder="TransCode">
+            </div>
+
+            <div class="form-group">
+                <label>请输入您购买的原数据的MD5码</label>
+                <input class="form-control" style="width:50%" id="transmd5" placeholder="MD5">
+            </div>
+
+       
+            <button type="button" class="btn btn-primary" style="width:50%" id="find0">查询</button>
+            <br><br>
+        
+            <div class="row">
+                <div class="col-lg-8" id="grid">
+                </div>
+        </div>
+    </div>
+    <!-- /#wrapper -->
+
+    <script type="text/javascript">
+        jQuery(function ($) {
+            var performance = [12, 43, 34, 22, 12, 33, 4, 17, 22, 34, 54, 67],
+                visits = [123, 323, 143, 132, 274, 223, 143, 156, 223, 223],
+                budget = [23, 19, 11, 34, 42, 52, 35, 22, 37, 45, 55, 57],
+                sales = [11, 9, 31, 34, 42, 52, 35, 22, 37, 45, 55, 57],
+                targets = [17, 19, 5, 4, 62, 62, 75, 12, 47, 55, 65, 67],
+                avrg = [117, 119, 95, 114, 162, 162, 175, 112, 147, 155, 265, 167];
+        
+            $("#find0").click(function() {
+                var transcode = $("#transcode").val();
+                var transmd5 = $("#transmd5").val();
+                var data = {"tcode": transcode, "tmd5": transmd5};
+                $.ajax({
+                    url: '/find',
+                    type: 'post',
+                    data: data,
+                    success: function(result) {
+                        $("#grid1").remove();
+                        $("#grid").prepend(
+                        "<div id=\"grid1\" class=\"panel panel-primary\"><div class=\"panel-heading\"><h3 class=\"panel-title\"><i class=\"fa fa-bar-chart-o\"></i> 查询结果</h3></div><div class=\"panel-body\"><div id=\"shieldui-grid1\"></div></div></div>"
+                        );
+                        if(result != undefined) {
+                            $("#shieldui-grid1").shieldGrid({
+                                dataSource: {
+                                    data: result
+                                },
+                                sorting: {
+                                    multiple: true
+                                },
+                                paging: {
+                                    pageSize: 7,
+                                    pageLinksCount: 4
+                                },
+                                selection: {
+                                    type: "row",
+                                    multiple: true,
+                                    toggle: false
+                                },
+                                columns: [
+                                    { field: "name", width: "150px", title: "目录" },
+                                    { field: "value", title: "内容" },
+                                ]
+                            });
+                        } else {
+                            
+                        }
+                    }
+                })
+            }); 
+        });
+    </script>
+</body>
+</html>

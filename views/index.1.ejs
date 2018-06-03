@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title><%= title %></title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" media="screen">
+    
+
+    <!-- Css -->
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+
+  <body>
+    <!-- Fixed navbar -->
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          </button>
+          <a class="navbar-brand" href="/">ETHATH</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/test"> test </a></li>
+            <li><a>未登录</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+    <div id="header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <h1>交易认证系统</h1>
+                    <font size=2 color='white'>基于以太坊开发的区块链交易平台，利用区块链的不可篡改性，
+                      <br/>提供更加安全可靠的服务。</h3>
+                      <br/>
+                      <br/>
+                      <button type="button" class="btn btn-info btn-lg" >
+                      <a href="/register" >
+                         没有账号？现在注册！</a></button>
+                      <br/>
+                      <br/>
+                      <button type="button" class="btn btn-info btn-lg" >
+                          <a href="/login">
+                         已有账号？现在登录！</a></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <p class="copyright"><a href="#">&copy; 联系我们</a></p>
+            </div>
+            <div class="col-md-6">
+                <div class="credits">
+                    <a href="#">SJTU</a> 
+                </div>
+            </div>
+        </div>      
+    </div>  
+    </div> 
+    <script type="text/javascript" src="javascripts/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>
