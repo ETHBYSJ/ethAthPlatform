@@ -10,13 +10,12 @@
     <link rel="stylesheet" type="text/css" href="/font-awesome/css/font-awesome.min.css" />
     <link rel="stylesheet" type="text/css" href="/stylesheets/local.css" />
 
-    <script type="text/javascript" src="/javascripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="/javascripts/jquery-2.1.4.min.js"></script>
     <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
 
     <!-- you need to include the shieldui css and js assets in order for the charts to work -->
     <link rel="stylesheet" type="text/css" href="/stylesheets/all.min.css" />
     <script type="text/javascript" src="/javascripts/shieldui-all.min.js"></script>
-    <script type="text/javascript" src="/javascripts/gridData.1.js"></script>
 </head>
 <body>
     <div id="wrapper">
@@ -35,7 +34,7 @@
                 <ul class="nav navbar-nav side-nav">
                     <li><a href="/"><i class="fa fa-bullseye"></i> &nbsp;主页</a></li>
                     <li ><a href="/find"><i class="fa fa-tasks"></i> &nbsp;查询交易凭证</a></li>
-                    <li class="/update"><a href="blog.html"><i class="fa fa-globe"></i> &nbsp;查询数据更新</a></li>
+                    <li class="active"><a href="/update"><i class="fa fa-globe"></i> &nbsp;查询数据更新</a></li>
                     <li><a href="signup.html"><i class="fa fa-list-ol"></i> &nbsp;个人资料</a></li>
                     <li><a href="register.html"><i class="fa fa-font"></i> &nbsp;修改密码</a></li>
            
@@ -79,58 +78,76 @@
                 <input id="transmd5" class="form-control" style="width:50%" placeholder="Enter text">
             </div>
             
-            <button id="update" type="button" class="btn btn-primary" style="width:50%">查询</button>
+            <button type="button" class="btn btn-primary" style="width:50%" id="update0">查询</button>
             <br><br>
         
 
             <div class="row">
-                <div class="col-lg-8">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <h3 class="panel-title"><i class="fa fa-bar-chart-o"></i> 查询结果</h3>
-                        </div>
-                        <div class="panel-body">
-                            <div id="shieldui-grid1"></div>
-                        </div>
-                    </div>
+                <div class="col-lg-8" id='grid'>
+                    
                 </div>
         </div>
     </div>
     <!-- /#wrapper -->
 
     <script type="text/javascript">
-        jQuery(function ($) {
-            var performance = [12, 43, 34, 22, 12, 33, 4, 17, 22, 34, 54, 67],
-                visits = [123, 323, 143, 132, 274, 223, 143, 156, 223, 223],
-                budget = [23, 19, 11, 34, 42, 52, 35, 22, 37, 45, 55, 57],
-                sales = [11, 9, 31, 34, 42, 52, 35, 22, 37, 45, 55, 57],
-                targets = [17, 19, 5, 4, 62, 62, 75, 12, 47, 55, 65, 67],
-                avrg = [117, 119, 95, 114, 162, 162, 175, 112, 147, 155, 265, 167];
-
-           
-            $("#update").click(
-
-            );
-            $("#shieldui-grid1").shieldGrid({
-                dataSource: {
-                    data: result
-                },
-                sorting: {
-                    multiple: true
-                },
-                paging: {
-                    pageSize: 7,
-                    pageLinksCount: 4
-                },
-                selection: {
-                    type: "row",
-                    multiple: true,
-                    toggle: false
-                },
-                columns: [
-                    { field: "id", width: "150px", title: "目录" },
-                    { field: "name", title: "内容" },
-                ]
+        jQuery(function ($) {       
+            $("#update0").click(function() {
+                var transcode = $("#transcode").val();
+                var transmd5 = $("#transmd5").val();
+                var data = {"tcode": transcode, "tmd5": transmd5};
+                
+                $.ajax({
+                    url: '/update',
+                    type: 'post',
+                    data: data, //data是查询输入
+                    success: function(result) {
+                        $.ajax({
+                            url: 'localhost:8001/trans',
+                            type: 'post',
+                            data: result, //result是加密后的交易信息 待发送
+                            success: function(result1) { 
+                                var result1 = {cip: "123", key: "abc"};
+                                //alert("result1" + result1);
+                                $.ajax({
+                                    url: '/update/data',
+                                    type: 'post',
+                                    data: result1, //接收到的object
+                                    success: function(display) {
+                                        $('#grid1').remove();
+                                        $('#grid').prepend(
+                                            "<div id=\"grid1\" class=\"panel panel-primary\"><div class=\"panel-heading\"><h3 class=\"panel-title\"><i class=\"fa fa-bar-chart-o\"></i> 查询结果</h3></div><div class=\"panel-body\"><div id=\"shieldui-grid2\"></div></div></div>"
+                                        );
+                                        if(display != undefined) {
+                                            $("#shieldui-grid2").shieldGrid({
+                                                dataSource: {
+                                                    data: display
+                                                },
+                                                sorting: {
+                                                    multiple: true
+                                                },
+                                                paging: {
+                                                    pageSize: 7,
+                                                    pageLinksCount: 4
+                                                },
+                                                selection: {
+                                                    type: "row",
+                                                    multiple: true,
+                                                    toggle: false
+                                                },
+                                                columns: [
+                                                    { field: "name", width: "150px", title: "目录" },
+                                                    { field: "value", title: "内容" },
+                                                ]
+                                            });
+                                        } else { }
+                                    }
+                                })
+                            }
+                        })
+                        
+                    }
+                })
             });
         });
     </script>

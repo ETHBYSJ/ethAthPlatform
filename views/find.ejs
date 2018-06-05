@@ -92,14 +92,9 @@
 
     <script type="text/javascript">
         jQuery(function ($) {
-            var performance = [12, 43, 34, 22, 12, 33, 4, 17, 22, 34, 54, 67],
-                visits = [123, 323, 143, 132, 274, 223, 143, 156, 223, 223],
-                budget = [23, 19, 11, 34, 42, 52, 35, 22, 37, 45, 55, 57],
-                sales = [11, 9, 31, 34, 42, 52, 35, 22, 37, 45, 55, 57],
-                targets = [17, 19, 5, 4, 62, 62, 75, 12, 47, 55, 65, 67],
-                avrg = [117, 119, 95, 114, 162, 162, 175, 112, 147, 155, 265, 167];
         
             $("#find0").click(function() {
+                alert('111')
                 var transcode = $("#transcode").val();
                 var transmd5 = $("#transmd5").val();
                 var data = {"tcode": transcode, "tmd5": transmd5};

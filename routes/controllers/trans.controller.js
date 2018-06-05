@@ -3,6 +3,9 @@ var router = express.Router();
 var crypto = require('crypto');
 var fs = require('fs');
 
+var priv_key = fs.readFileSync('./key/privateC.txt')
+var sha1 = crypto.createHash('sha1');
+
 var Async = require('async');
 var web3 = require('../../web3/server.js');
 var model = require('../../mongodb/model');
@@ -13,7 +16,40 @@ router.post('/', function(res, req) {
     var cip = req.body.cip;
     var key = req.body.key;
     //解密过程 解密cip放入certificate
+    var dekey = crypto.privateDecrypt({key:priv_key,padding:crypto.constants.RSA_PKCS1_PADDING},new Buffer(key,'hex'))
+    var decipher = crypto.createDecipher('aes-128-ecb',dekey);
+    var decrypted = decipher.update(cip,'hex','utf8');
+    decrypted += decipher.final('utf8');
+    var certi = JSON.parse(decrypted);
+
+    var intro = certi.intro;
+    var type = certi.type;
+    var value = certi.value;
+    var md5 = certi.md5;
+    var buyer = certi.buyer;
+    var date = certi.date;
+    var platformID = certi.platformID;
+    var hash = certi.hash;
+
+    var transaction = {
+        "intro": intro,
+        "type" : type,
+        "value": value, 
+        "md5"  : md5,
+        "buyer": buyer,
+        "date" : date,
+        "platformID": platformID
+    };
     //验证hash  return
+    //SHA-1 HASH
+    sha1.update(JSON.stringify(transaction));
+    var tranhash = sha1.digest('hex');
+    //验证失败
+    if(tranhash != hash) {
+        return;
+    }
+    //验证成功
+    //else 
     var certificate = JSON.stringify({
         code: "",
         intro: intro,
@@ -35,9 +71,7 @@ router.post('/', function(res, req) {
                 'O', 'P', 'Q', 'R', 'S', 'T',
                 'U', 'V', 'W', 'X', 'Y', 'Z']
     /* web3.js */
-    
-    console.log(msg);
-    var data = '0x' + Buffer.from(certificate).toString('hex');
+
     /**
      * 根据实际情况改变
      */
@@ -55,6 +89,10 @@ router.post('/', function(res, req) {
             callback(null, transcode);
         },
         function gen_trans(transcode, callback) {
+            certificate.code = transcode;
+
+            var data = '0x' + Buffer.from(certificate).toString('hex');
+
             web3.eth.sendTransaction({
                 from: coinbase,
                 to: user1,
