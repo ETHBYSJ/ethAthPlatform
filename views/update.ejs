@@ -107,12 +107,10 @@
                             type: 'post',
                             data: result, //result是加密后的交易信息 待发送
                             success: function(result1) { 
-                                var result1 = {cip: "123", key: "abc"};
-                                //alert("result1" + result1);
                                 $.ajax({
                                     url: '/update/data',
                                     type: 'post',
-                                    data: result1, //接收到的object
+                                    data: result1, //接收到From A的object
                                     success: function(display) {
                                         $('#grid1').remove();
                                         $('#grid').prepend(
