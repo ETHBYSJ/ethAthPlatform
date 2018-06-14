@@ -4,17 +4,32 @@ var crypto = require('crypto');
 var fs = require('fs');
 
 var priv_key = fs.readFileSync('./key/privateC.txt')
-var sha1 = crypto.createHash('sha1');
+var pub_keyA = fs.readFileSync('./key/publicA.txt');
+
 
 var Async = require('async');
 var web3 = require('../../web3/server.js');
 var model = require('../../mongodb/model');
 
-router.post('/', function(res, req) {
+function randKey() {
+	var len = Math.floor(Math.random()*8+8); //8-15
+	var text = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+	var pwd = "";
+	for(var i=0; i<len; ++i) {
+		pwd += text.charAt(Math.random()*1000%text.length);
+	}
+	return pwd;
+}
+
+
+router.get('/', function(req, res, next) {
+    res.render("test", {title: 'trans'});
+}).post('/', function(req, res) {
     var Bcindex = model.Bcindex;
 
     var cip = req.body.cip;
     var key = req.body.key;
+    console.log('step1: get req');
     //解密过程 解密cip放入certificate
     var dekey = crypto.privateDecrypt({key:priv_key,padding:crypto.constants.RSA_PKCS1_PADDING},new Buffer(key,'hex'))
     var decipher = crypto.createDecipher('aes-128-ecb',dekey);
@@ -42,8 +57,11 @@ router.post('/', function(res, req) {
     };
     //验证hash  return
     //SHA-1 HASH
+    var sha1 = crypto.createHash('sha1');
     sha1.update(JSON.stringify(transaction));
     var tranhash = sha1.digest('hex');
+    console.log("SHA-1:" + tranhash);
+    
     //验证失败
     if(tranhash != hash) {
         return;
@@ -61,29 +79,21 @@ router.post('/', function(res, req) {
         platformID: platformID
     });
 
-    var code = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-                'a', 'b', 'c', 'd', 'e', 'f', 'g',
-                'h', 'i', 'j', 'k', 'l', 'm', 'n',
-                'o', 'p', 'q', 'r', 's', 't',
-                'u', 'v', 'w', 'x', 'y', 'z',
-                'A', 'B', 'C', 'D', 'E', 'F', 'G',
-                'H', 'I', 'J', 'K', 'L', 'M', 'M',
-                'O', 'P', 'Q', 'R', 'S', 'T',
-                'U', 'V', 'W', 'X', 'Y', 'Z']
-    /* web3.js */
+    
+    // web3.js
 
-    /**
-     * 根据实际情况改变
-     */
-    var coinbase = "0xa64a1f6ac24b3bfe7639c7358158a9fafea7d0c1";
-    var user1 = "0x1835893a8564729c56281b1520aee27e2b8593d5";
+    var coinbase = "0xe8990c58659fa440a18b435b131d2b82fcd26758";
+    var user1 = "0xc7e98fdbbbc57fb7768c4df502db14f173bcc263";
+
+    console.log('step2')
     
     Async.waterfall([
         function gen_id(callback) {
             var transcode = "";
+            var text = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             for(var i=0; i<16; i++) {
-                var codenumber = Math.round(62*Math.random); //id
-                transcode = transcode + code[codenumber];
+                var codenumber = Math.round(62*Math.random());
+                transcode += text.charAt(codenumber);
             }
             console.log("transcode: "+ transcode)
             callback(null, transcode);
@@ -115,9 +125,9 @@ router.post('/', function(res, req) {
                     res.sendStatus(500);
                 } else {
                     Bcindex.create({
-                        code: transcode,
+                        transcode: transcode,
                         time: date,
-                        transhash: thash,
+                        transhash: hash,
                         datahash: md5
                     })
                 }
@@ -125,7 +135,32 @@ router.post('/', function(res, req) {
             callback(null, transcode);
         },
         function code_back(transcode, callback) {
+            var code_msg = {
+                "code": transcode
+            };
+            //sha1 hash
+            var sha1 = crypto.createHash('sha1');
+            sha1.update(JSON.stringify(code_msg)); //hash的是json
+            var hash = sha1.digest('hex');
             
+            var msg = {
+                "code": transcode,
+                "hash": hash
+            }
+            console.log(JSON.stringify(msg))
+            //AES KEY 生成
+			var key = randKey();
+			//AES加密 update_msg -> update_cip
+			const cipher = crypto.createCipher('aes-128-ecb', key);
+			var cipherResult = cipher.update(JSON.stringify(msg), 'utf8', 'hex');
+			cipherResult = cipherResult + cipher.final('hex');
+				
+			var rsakey = crypto.publicEncrypt({key:pub_keyA, padding:crypto.constants.RSA_PKCS1_PADDING}, new Buffer(key));
+			var data_cip = {
+				"cip": cipherResult,
+                "key": rsakey.toString('hex')
+            };
+            res.send(data_cip);
             callback(null);
         }
     ], function(err){

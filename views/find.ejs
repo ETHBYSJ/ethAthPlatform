@@ -36,20 +36,20 @@
                     <li><a href="/"><i class="fa fa-bullseye"></i> &nbsp;主页</a></li>
                     <li class="active"><a href="/find"><i class="fa fa-tasks"></i> &nbsp;查询交易凭证</a></li>
                     <li><a href="/update"><i class="fa fa-globe"></i> &nbsp;查询数据更新</a></li>
-                    <li><a href="signup.html"><i class="fa fa-list-ol"></i> &nbsp;个人资料</a></li>
-                    <li><a href="register.html"><i class="fa fa-font"></i> &nbsp;修改密码</a></li>
+                    <li><a href="#"><i class="fa fa-list-ol"></i> &nbsp;个人资料</a></li>
+                    <li><a href="#"><i class="fa fa-font"></i> &nbsp;修改密码</a></li>
            
-                    <li><a href="timeline.html"><i class="fa fa-font"></i> &nbsp;联系我们</a></li>
+                    <li><a href="#"><i class="fa fa-font"></i> &nbsp;联系我们</a></li>
                     
                 </ul>
                 <ul class="nav navbar-nav navbar-right navbar-user">
                      <li class="dropdown user-dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Steve Miller<b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <%-user%><b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li><a href="#"><i class="fa fa-user"></i> 个人资料</a></li>
                             <li><a href="#"><i class="fa fa-gear"></i> 个人设置</a></li>
                             <li class="divider"></li>
-                            <li><a href="#"><i class="fa fa-power-off"></i> 登出</a></li>
+                            <li><a href="/logout"><i class="fa fa-power-off"></i> 登出</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -94,7 +94,6 @@
         jQuery(function ($) {
         
             $("#find0").click(function() {
-                alert('111')
                 var transcode = $("#transcode").val();
                 var transmd5 = $("#transmd5").val();
                 var data = {"tcode": transcode, "tmd5": transmd5};
@@ -104,6 +103,10 @@
                     data: data,
                     success: function(result) {
                         $("#grid1").remove();
+                        if(JSON.stringify(result)=='[]') {
+                            alert('交易信息不存在！');
+                            return
+                        }
                         $("#grid").prepend(
                         "<div id=\"grid1\" class=\"panel panel-primary\"><div class=\"panel-heading\"><h3 class=\"panel-title\"><i class=\"fa fa-bar-chart-o\"></i> 查询结果</h3></div><div class=\"panel-body\"><div id=\"shieldui-grid1\"></div></div></div>"
                         );

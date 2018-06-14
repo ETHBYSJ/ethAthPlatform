@@ -5,6 +5,11 @@ var model = require('../../mongodb/model');
 
 /* GET register page. */
 router.get('/', function(req, res, next) {
+    if(!req.session.user) {
+        req.session.error = "请先登录";
+        console.log(res.locals.message);
+        res.redirect("/login");
+    }
     res.render('register', { title: 'User Register' });
 }).post('/',function(req, res) {
     var User = model.User;
