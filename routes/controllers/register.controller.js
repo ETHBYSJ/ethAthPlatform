@@ -1,15 +1,12 @@
 var express = require('express');
 var router = express.Router();
+var crypto = require('crypto');
 
 var model = require('../../mongodb/model');
+var web3 = require('../../web3/server.js');
 
 /* GET register page. */
 router.get('/', function(req, res, next) {
-    if(!req.session.user) {
-        req.session.error = "请先登录";
-        console.log(res.locals.message);
-        res.redirect("/login");
-    }
     res.render('register', { title: 'User Register' });
 }).post('/',function(req, res) {
     var User = model.User;
@@ -19,7 +16,8 @@ router.get('/', function(req, res, next) {
     */
     if(req.body.uname!=undefined && req.body.upwd!=undefined && req.body.uname!='' && req.body.upwd!='') {
         var uname = req.body.uname;
-        var upwd = req.body.upwd;
+
+        var upwd = crypto.createHash('md5').update(req.body.upwd).digest('hex');
         
         User.findOne({account: uname}, function(err, result) {
             if(err) {
@@ -34,16 +32,17 @@ router.get('/', function(req, res, next) {
                 User.create({
                     account: uname,
                     password: upwd,
-                    eth: 0,
-                    category: 1
+                    eth: null,
+                    balance: null,
+                    question: null,
+                    answer: null
                 }, function(err, doc) {
                     if(err) {
                         res.sendStatus(500);
                         console.log(err);
                     } else {
-                        req.session.error = '用户创建成功,请登录'
+                        req.session.error = '请输入密保信息，完成注册哦';
                         res.sendStatus(200);
-                        console.log('用户名创建成功');
                     }
                 })
             }
